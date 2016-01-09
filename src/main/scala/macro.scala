@@ -6,6 +6,31 @@ import scala.language.experimental.macros
 import scala.annotation.StaticAnnotation
 import scala.annotation.compileTimeOnly
 
+/**
+ * Macro annotation that transforms a trait with only bare,
+ * empty objects as members to an ADT following the CaseEnum
+ * convention (see the CaseEnum trait).
+ *
+ * e.g.
+ * ```
+ * @enum trait Planet {
+ *   object Earth
+ *   object Venus
+ *   object Mercury
+ * }
+ * ```
+ *
+ * is transformed to
+ *
+ * ```
+ * sealed abstract trait Planet
+ * object Planet {
+ *   case object Earth extends Planet
+ *   case object Venus extends Planet
+ *   case object Mercury extends Planet
+ * }
+ * ```
+ */
 @compileTimeOnly("Enable macro paradise to expand macro annotations.")
 class enum extends StaticAnnotation {
   def macroTransform(annottees: Any*) = macro EnumMacro.impl
