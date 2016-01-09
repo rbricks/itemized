@@ -15,7 +15,7 @@ import scala.reflect.macros.blackbox.Context
  * }
  * ```
  */
-trait CaseEnum
+trait CaseEnum extends Product with Serializable
 
 /**
  * Typeclass with conversions to and from strings for ADTs representing enumerations
