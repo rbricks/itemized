@@ -1,6 +1,6 @@
 name := "ingredients-caseenum"
 
-version       := "0.1-SNAPSHOT"
+version       := "0.1.0"
 
 resolvers += "Pellucid Bintray" at "http://dl.bintray.com/pellucid/maven"
 
