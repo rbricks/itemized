@@ -5,8 +5,7 @@
 A convention and utility functions for ADT-based safe enumerations.
 
 ```scala
-@enum trait Planet
-object Planet {
+@enum trait Planet {
   object Earth
   object Venus
   object Mercury
@@ -43,8 +42,7 @@ object Planet {
 This is equivalent to the following (which expands to the same encoding).
 
 ```scala
-@enum trait Planet
-object Planet {
+@enum trait Planet {
   object Earth
   object Venus
   object Mercury
