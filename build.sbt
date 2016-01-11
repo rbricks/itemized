@@ -1,8 +1,6 @@
 name := "ingredients-caseenum"
 
-version       := "0.1.1-SNAPSHOT"
-
-resolvers += "Pellucid Bintray" at "http://dl.bintray.com/pellucid/maven"
+version       := "0.1.1"
 
 libraryDependencies <+= (scalaVersion) { sv =>
   "org.scala-lang" %  "scala-reflect" % sv
