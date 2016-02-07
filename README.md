@@ -118,7 +118,6 @@ The `CaseEnumIndex` typeclass provides operations to convert ADT-based enums to 
   object Venus   { 2 }
   object Mercury { 3 }
 }
-```
 
 scala> implicitly[CaseEnumIndex[Planet]].caseFromIndex(2)
 res0: Option[Planet] = Some(Venus)
@@ -128,4 +127,5 @@ res1: Int = 3
 
 scala> implicitly[CaseEnumIndex[Planet]].caseToIndex(Planet.Mercury)
 res2: Int = 3
+```
 
