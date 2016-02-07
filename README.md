@@ -79,3 +79,53 @@ implicit def caseEnumJsonEncoding[T <: CaseEnum](implicit instance: CaseEnumSeri
 }
 ```
 
+## Enumerations with an associated value
+
+The `@indexedEnum` annotation builds enumerations that follow the library's convention for ADT-based enums with an associated value.
+
+```
+sealed abstract trait Planet extends IndexedEnum {
+  type Index = Int
+}
+object Planet {
+  case object Earth extends Planet { val index = 1 }
+  case object Venus extends Planet { val index = 2 }
+  case object Mercury extends Planet { val index = 3 }
+}
+```
+
+This is equivalent to the following.
+
+```scala
+@indexedEnum trait Planet {
+  type Index = Int
+  object Earth   { 1 }
+  object Venus   { 2 }
+  object Mercury { 3 }
+}
+```
+
+Usage of the @indexedEnum macro annotations requires the macro paradise plugin to be enabled in your project. Refer to the [Install](#Install) section for how to set it up.
+
+## To and from the associated value ("index")
+
+The `CaseEnumIndex` typeclass provides operations to convert ADT-based enums to and from their associated values.
+
+```scala
+@indexedEnum trait Planet {
+  type Index = Int
+  object Earth   { 1 }
+  object Venus   { 2 }
+  object Mercury { 3 }
+}
+```
+
+scala> implicitly[CaseEnumIndex[Planet]].caseFromIndex(2)
+res0: Option[Planet] = Some(Venus)
+
+scala> Planet.Mercury.index
+res1: Int = 3
+
+scala> implicitly[CaseEnumIndex[Planet]].caseToIndex(Planet.Mercury)
+res2: Int = 3
+
