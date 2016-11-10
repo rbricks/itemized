@@ -9,7 +9,6 @@ libraryDependencies <+= (scalaVersion) { sv =>
 }
 
 libraryDependencies ++= Seq(
-  "com.pellucid"   %% "sealerate"     % "0.0.3",
   "org.scalatest"  %% "scalatest"     % "2.2.0" % "test",
   "org.mockito"    %  "mockito-all"   % "1.9.5" % "test"
 )
