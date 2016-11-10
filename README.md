@@ -25,6 +25,21 @@ It would fail on the following input: Mercury
 res1: String = close
 ```
 
+## Install
+
+Add the buildo/maven Bintray resolver and the dependency to your `build.sbt`
+
+```scala
+resolvers += "bintray buildo/maven" at "http://dl.bintray.com/buildo/maven"
+
+libraryDependencies += "io.buildo" %% "ingredients-caseenum" % "..."
+```
+
+To enable the macro paradise plugin (for the @enum annotation), also add
+
+```scala
+addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0-M5" cross CrossVersion.full)
+```
 
 ## Convention and marker trait
 
@@ -64,17 +79,3 @@ implicit def caseEnumJsonEncoding[T <: CaseEnum](implicit instance: CaseEnumSeri
 }
 ```
 
-## Install
-Add the buildo/maven Bintray resolver and the dependency to your `build.sbt`
-
-```scala
-resolvers += "bintray buildo/maven" at "http://dl.bintray.com/buildo/maven"
-
-libraryDependencies += "io.buildo" %% "ingredients-caseenum" % "..."
-```
-
-To enable the macro paradise plugin (for the @enum annotation), also add
-
-```scala
-addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0-M5" cross CrossVersion.full)
-```
