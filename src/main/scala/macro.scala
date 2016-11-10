@@ -1,4 +1,4 @@
-package ingredients.caseenum.annotations
+package io.rbricks.itemized.annotations
 
 import scala.reflect.macros._
 import scala.reflect.macros.blackbox.Context
@@ -8,8 +8,8 @@ import scala.annotation.compileTimeOnly
 
 /**
  * Macro annotation that transforms a trait with only bare,
- * empty objects as members to an ADT following the CaseEnum
- * convention (see the CaseEnum trait).
+ * empty objects as members to an ADT following the Itemized
+ * convention (see the Itemized trait).
  *
  * e.g.
  * ```
@@ -23,7 +23,7 @@ import scala.annotation.compileTimeOnly
  * is transformed to
  *
  * ```
- * sealed abstract trait Planet extends CaseEnum
+ * sealed abstract trait Planet extends Itemized
  * object Planet {
  *   case object Earth extends Planet
  *   case object Venus extends Planet
@@ -55,7 +55,7 @@ object EnumMacro {
           c.abort(c.enclosingPosition, "Enum members should be plain objects")
       }
       c.Expr(q"""
-        sealed abstract trait $enumName extends _root_.ingredients.caseenum.CaseEnum
+        sealed abstract trait $enumName extends _root_.io.rbricks.itemized.Itemized
         object ${enumName.toTermName} {
           ..$members
         }
@@ -71,8 +71,8 @@ object EnumMacro {
 
 /**
  * Macro annotation that transforms a trait enclosing a single type
- * alias and a set of objects to an ADT following the IndexedCaseEnum
- * convention (see the IndexedCaseEnum trait).
+ * alias and a set of objects to an ADT following the IndexedItemized
+ * convention (see the IndexedItemized trait).
  *
  * e.g.
  * ```
@@ -128,7 +128,7 @@ object IndexedEnumMacro {
         case _ => c.abort(c.enclosingPosition, "Invalid type alias declaration")
       }
       c.Expr(q"""
-        sealed abstract trait $enumName extends _root_.ingredients.caseenum.IndexedCaseEnum {
+        sealed abstract trait $enumName extends _root_.io.rbricks.itemized.IndexedItemized {
           type Index = $indexType
         }
         object ${enumName.toTermName} {

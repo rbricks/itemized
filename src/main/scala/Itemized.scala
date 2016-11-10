@@ -1,4 +1,4 @@
-package ingredients.caseenum
+package io.rbricks.itemized
 
 import scala.language.experimental.macros
 import scala.reflect.macros.blackbox.Context
@@ -8,19 +8,19 @@ import scala.reflect.macros.blackbox.Context
  *
  * The convention requires the following structure for the enumeration:
  * ```
- * sealed trait EnumName extends CaseEnum
+ * sealed trait EnumName extends Itemized
  * object EnumName {
  *   case object Element1 extends EnumName
  *   case object Element2 extends EnumName
  * }
  * ```
  */
-trait CaseEnum extends Product with Serializable
+trait Itemized extends Product with Serializable
 
 /**
  * Typeclass with conversions to and from strings for ADTs representing enumerations
  */
-trait CaseEnumSerialization[T <: CaseEnum] {
+trait ItemizedSerialization[T <: Itemized] {
   def caseToString(value: T): String
   /**
    * @return Some(T) if the string corresponds to one of the enumeration elements,
@@ -29,15 +29,15 @@ trait CaseEnumSerialization[T <: CaseEnum] {
   def caseFromString(str: String): Option[T]
 }
 
-// Companion object to provide typeclass instances for all CaseEnums
-object CaseEnumSerialization {
-  implicit def caseEnumSerialization[T <: CaseEnum]: CaseEnumSerialization[T] =
-    macro CaseEnumMacro.caseEnumSerializationMacro[T]
+// Companion object to provide typeclass instances for all Itemizeds
+object ItemizedSerialization {
+  implicit def caseEnumSerialization[T <: Itemized]: ItemizedSerialization[T] =
+    macro ItemizedMacro.caseEnumSerializationMacro[T]
 }
 
-// Macro implementation for CaseEnumSerialization typeclass instance
-object CaseEnumMacro {
-  def caseEnumSerializationMacro[T <: CaseEnum : c.WeakTypeTag](c: Context): c.Tree = {
+// Macro implementation for ItemizedSerialization typeclass instance
+object ItemizedMacro {
+  def caseEnumSerializationMacro[T <: Itemized : c.WeakTypeTag](c: Context): c.Tree = {
     import c.universe._
     val tpe = weakTypeOf[T]
     val typeName = tpe.typeSymbol
@@ -53,7 +53,7 @@ object CaseEnumMacro {
     }
 
     q"""
-      new _root_.ingredients.caseenum.CaseEnumSerialization[$typeName] {
+      new _root_.io.rbricks.itemized.ItemizedSerialization[$typeName] {
         private[this] val map: Map[$typeName, String] = Map(..$mapComponents)
         private[this] val revMap = map.map(_ swap)
         def caseToString(value: $typeName): String = map(value)

@@ -1,6 +1,4 @@
-# Ingredients CaseEnum
-
-[ ![Download](https://api.bintray.com/packages/buildo/maven/ingredients-caseenum/images/download.svg) ](https://bintray.com/buildo/maven/ingredients-caseenum/_latestVersion)
+# rbricks itemized
 
 A convention and utility functions for ADT-based safe enumerations.
 
@@ -11,7 +9,7 @@ A convention and utility functions for ADT-based safe enumerations.
   object Mercury
 }
 
-scala> implicitly[CaseEnumSerialization[Planet]].caseFromString("Earth")
+scala> implicitly[ItemizedSerialization[Planet]].caseFromString("Earth")
 res0: Option[Planet] = Some(Earth)
 
 scala> (Planet.Earth : Planet) match {
@@ -27,18 +25,16 @@ res1: String = close
 
 ## Install
 
-Add the buildo/maven Bintray resolver and the dependency to your `build.sbt`
+Add the dependency to your `build.sbt`
 
 ```scala
-resolvers += "bintray buildo/maven" at "http://dl.bintray.com/buildo/maven"
-
-libraryDependencies += "io.buildo" %% "ingredients-caseenum" % "..."
+libraryDependencies += "io.rbricks.itemized" %% "itemized" % "..."
 ```
 
 To enable the macro paradise plugin (for the @enum annotation), also add
 
 ```scala
-addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0-M5" cross CrossVersion.full)
+addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full)
 ```
 
 ## Convention and marker trait
@@ -68,12 +64,12 @@ Usage of the @enum macro annotations requires the macro paradise plugin to be en
 
 ## To and from String
 
-The `CaseEnumSerialization` typeclass provides operations to convert ADT-based enumerations to and from strings.
+The `ItemizedSerialization` typeclass provides operations to convert ADT-based enumerations to and from strings.
 
 Implemetors of encoding and decoding (serialization) protocols may use it as follows:
 
 ```scala
-implicit def caseEnumJsonEncoding[T <: CaseEnum](implicit instance: CaseEnumSerialization[T]) = new JsonEncoding[T] {
+implicit def caseEnumJsonEncoding[T <: Itemized](implicit instance: ItemizedSerialization[T]) = new JsonEncoding[T] {
   def write(value: T): JsonObject = JsonString(instance.caseToString(value))
   def read(jsonObject: JsonObject) = ... instance.caseFromString(str).get
 }
@@ -109,7 +105,7 @@ Usage of the @indexedEnum macro annotations requires the macro paradise plugin t
 
 ## To and from the associated value ("index")
 
-The `CaseEnumIndex` typeclass provides operations to convert ADT-based enums to and from their associated values.
+The `ItemizedIndex` typeclass provides operations to convert ADT-based enums to and from their associated values.
 
 ```scala
 @indexedEnum trait Planet {
@@ -119,13 +115,13 @@ The `CaseEnumIndex` typeclass provides operations to convert ADT-based enums to 
   object Mercury { 3 }
 }
 
-scala> implicitly[CaseEnumIndex[Planet]].caseFromIndex(2)
+scala> implicitly[ItemizedIndex[Planet]].caseFromIndex(2)
 res0: Option[Planet] = Some(Venus)
 
 scala> Planet.Mercury.index
 res1: Int = 3
 
-scala> implicitly[CaseEnumIndex[Planet]].caseToIndex(Planet.Mercury)
+scala> implicitly[ItemizedIndex[Planet]].caseToIndex(Planet.Mercury)
 res2: Int = 3
 ```
 

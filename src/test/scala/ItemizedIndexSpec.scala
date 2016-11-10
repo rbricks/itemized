@@ -1,18 +1,18 @@
-import ingredients.caseenum._
+import io.rbricks.itemized._
 
 import org.scalatest.{ Matchers, WordSpec }
 
-class CaseEnumIndexSpec extends WordSpec with Matchers {
-  sealed trait Planet extends IndexedCaseEnum { type Index = Int }
+class ItemizedIndexSpec extends WordSpec with Matchers {
+  sealed trait Planet extends IndexedItemized { type Index = Int }
   object Planet {
     case object Mercury extends Planet { val index = 1 }
     case object Venus extends Planet { val index = 2 }
     case object Earth extends Planet { val index = 3 }
   }
 
-  "CaseEnumIndexMacro" should {
-    "construct a sensible CaseEnumIndex" in {
-      val converter = CaseEnumIndex.caseEnumIndex[Planet]
+  "ItemizedIndexMacro" should {
+    "construct a sensible ItemizedIndex" in {
+      val converter = ItemizedIndex.caseEnumIndex[Planet]
 
       val pairs = List(
         Planet.Mercury -> 1,
@@ -26,15 +26,15 @@ class CaseEnumIndexSpec extends WordSpec with Matchers {
     }
   }
 
-  "CaseEnumIndex" should {
+  "ItemizedIndex" should {
     "provide the typeclass instance" in {
       trait FakeBinaryPickler[T] {
         def pickle(c: T)(picklerState: { def writeInt(int: Int) }): Unit
         def unpickle(unpicklerState: { def getInt(): Int }): Option[T]
       }
 
-      implicit def fakeBinaryPickler[T <: IndexedCaseEnum { type Index = Int }](
-        implicit instance: CaseEnumIndex[T]) = new FakeBinaryPickler[T] {
+      implicit def fakeBinaryPickler[T <: IndexedItemized { type Index = Int }](
+        implicit instance: ItemizedIndex[T]) = new FakeBinaryPickler[T] {
 
         def pickle(c: T)(picklerState: { def writeInt(int: Int) }): Unit = {
           picklerState.writeInt(instance.caseToIndex(c))

@@ -1,18 +1,18 @@
-import ingredients.caseenum._
+import io.rbricks.itemized._
 
 import org.scalatest.{ Matchers, WordSpec }
 
-class CaseEnumSpec extends WordSpec with Matchers {
-  sealed trait Planet extends CaseEnum
+class ItemizedSpec extends WordSpec with Matchers {
+  sealed trait Planet extends Itemized
   object Planet {
     case object Mercury extends Planet
     case object Venus extends Planet
     case object Earth extends Planet
   }
 
-  "CaseEnumMacro" should {
-    "construct a sensible CaseEnumSerialization" in {
-      val serialization = CaseEnumSerialization.caseEnumSerialization[Planet]
+  "ItemizedMacro" should {
+    "construct a sensible ItemizedSerialization" in {
+      val serialization = ItemizedSerialization.caseEnumSerialization[Planet]
 
       val pairs = List(
         Planet.Mercury -> "Mercury",
@@ -33,7 +33,7 @@ class CaseEnumSpec extends WordSpec with Matchers {
         def fromString(str: String): Option[T]
       }
 
-      implicit def fakeJsonSerializer[T <: CaseEnum](implicit instance: CaseEnumSerialization[T]) = new FakeJsonSerializer[T] {
+      implicit def fakeJsonSerializer[T <: Itemized](implicit instance: ItemizedSerialization[T]) = new FakeJsonSerializer[T] {
         def toString(value: T): String = instance.caseToString(value)
         def fromString(str: String): Option[T] = instance.caseFromString(str)
       }

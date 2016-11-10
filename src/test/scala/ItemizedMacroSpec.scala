@@ -1,8 +1,8 @@
-import ingredients.caseenum.annotations.{enum, indexedEnum}
+import io.rbricks.itemized.annotations.{enum, indexedEnum}
 
 import org.scalatest.{ Matchers, WordSpec }
 
-class CaseEnumMacroSpec extends WordSpec with Matchers {
+class ItemizedMacroSpec extends WordSpec with Matchers {
   @enum trait Planet {
     object Mercury
     object Venus
@@ -10,7 +10,7 @@ class CaseEnumMacroSpec extends WordSpec with Matchers {
   }
 
   "@enum annotation" should {
-    "produce a valid CaseEnum-style ADT" in {
+    "produce a valid Itemized-style ADT" in {
       Planet.Earth shouldBe a[Product]
       Planet.Earth shouldBe a[Serializable]
       Planet.Earth shouldBe a[Planet]
@@ -21,7 +21,7 @@ class CaseEnumMacroSpec extends WordSpec with Matchers {
 
 }
 
-class IndexedCaseEnumMacroSpec extends WordSpec with Matchers {
+class IndexedItemizedMacroSpec extends WordSpec with Matchers {
   @indexedEnum trait Planet {
     type Index = Int
     object Mercury { 1 }
@@ -30,7 +30,7 @@ class IndexedCaseEnumMacroSpec extends WordSpec with Matchers {
   }
 
   "@indexedEnum annotation" should {
-    "produce a valid IndexedCaseEnum-style ADT" in {
+    "produce a valid IndexedItemized-style ADT" in {
       val typecheck: Int = 3: Planet#Index
       Planet.Earth shouldBe a[Product]
       Planet.Earth shouldBe a[Serializable]
