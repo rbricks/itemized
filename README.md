@@ -1,4 +1,4 @@
-# rbricks itemized
+# ![rbricks itemized](https://raw.githubusercontent.com/rbricks/rbricks.github.io/master/logo/itemized.png)
 
 A convention and utility functions for ADT-based safe enumerations.
 
