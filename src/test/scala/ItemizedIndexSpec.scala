@@ -12,7 +12,7 @@ class ItemizedIndexSpec extends WordSpec with Matchers {
 
   "ItemizedIndexMacro" should {
     "construct a sensible ItemizedIndex" in {
-      val converter = ItemizedIndex.caseEnumIndex[Planet]
+      val converter = ItemizedIndex.itemizedIndexFor[Planet]
 
       val pairs = List(
         Planet.Mercury -> 1,
@@ -20,8 +20,8 @@ class ItemizedIndexSpec extends WordSpec with Matchers {
         Planet.Earth -> 3)
 
       for ((co, index) <- pairs) {
-        converter.caseToIndex(co).shouldBe(index)
-        converter.caseFromIndex(index).shouldBe(Some(co))
+        converter.toIndex(co).shouldBe(index)
+        converter.fromIndex(index).shouldBe(Some(co))
       }
     }
   }
@@ -37,10 +37,10 @@ class ItemizedIndexSpec extends WordSpec with Matchers {
         implicit instance: ItemizedIndex[T]) = new FakeBinaryPickler[T] {
 
         def pickle(c: T)(picklerState: { def writeInt(int: Int) }): Unit = {
-          picklerState.writeInt(instance.caseToIndex(c))
+          picklerState.writeInt(instance.toIndex(c))
         }
         def unpickle(unpicklerState: { def getInt(): Int }): Option[T] = {
-          instance.caseFromIndex(unpicklerState.getInt())
+          instance.fromIndex(unpicklerState.getInt())
         }
       }
 

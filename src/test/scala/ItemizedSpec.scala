@@ -11,8 +11,8 @@ class ItemizedSpec extends WordSpec with Matchers {
   }
 
   "ItemizedMacro" should {
-    "construct a sensible ItemizedSerialization" in {
-      val serialization = ItemizedSerialization.caseEnumSerialization[Planet]
+    "construct a sensible ItemizedCodec" in {
+      val itemizedCodec = ItemizedCodec.itemizedCodecFor[Planet]
 
       val pairs = List(
         Planet.Mercury -> "Mercury",
@@ -20,22 +20,23 @@ class ItemizedSpec extends WordSpec with Matchers {
         Planet.Earth -> "Earth")
 
       for ((co, str) <- pairs) {
-        serialization.caseToString(co).shouldBe(str)
-        serialization.caseFromString(str).shouldBe(Some(co))
+        itemizedCodec.toRep(co).shouldBe(str)
+        itemizedCodec.fromRep(str).shouldBe(Some(co))
       }
     }
+
   }
 
-  "SerializationSupport" should {
+  "ItemizedCodec" should {
     "provide the typeclass instance" in {
       trait FakeJsonSerializer[T] {
         def toString(value: T): String
         def fromString(str: String): Option[T]
       }
 
-      implicit def fakeJsonSerializer[T <: Itemized](implicit instance: ItemizedSerialization[T]) = new FakeJsonSerializer[T] {
-        def toString(value: T): String = instance.caseToString(value)
-        def fromString(str: String): Option[T] = instance.caseFromString(str)
+      implicit def fakeJsonSerializer[T <: Itemized](implicit instance: ItemizedCodec[T]) = new FakeJsonSerializer[T] {
+        def toString(value: T): String = instance.toRep(value)
+        def fromString(str: String): Option[T] = instance.fromRep(str)
       }
 
       implicitly[FakeJsonSerializer[Planet]].fromString("Mercury").shouldBe(Some(Planet.Mercury))

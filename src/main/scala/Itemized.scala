@@ -1,7 +1,7 @@
 package io.rbricks.itemized
 
 import scala.language.experimental.macros
-import scala.reflect.macros.blackbox.Context
+import scala.reflect.macros.whitebox.Context
 
 /**
  * Marker trait for ADTs representing enumerations
@@ -20,28 +20,44 @@ trait Itemized extends Product with Serializable
 /**
  * Typeclass with conversions to and from strings for ADTs representing enumerations
  */
-trait ItemizedSerialization[T <: Itemized] {
-  def caseToString(value: T): String
+trait ItemizedCodec[T <: Itemized] {
+  def toRep(value: T): String
+
   /**
    * @return Some(T) if the string corresponds to one of the enumeration elements,
    *         None otherwise
    */
-  def caseFromString(str: String): Option[T]
+  def fromRep(str: String): Option[T]
 }
 
 // Companion object to provide typeclass instances for all Itemizeds
-object ItemizedSerialization {
-  implicit def caseEnumSerialization[T <: Itemized]: ItemizedSerialization[T] =
-    macro ItemizedMacro.caseEnumSerializationMacro[T]
+object ItemizedCodec {
+  implicit def itemizedCodecFor[T <: Itemized]: ItemizedCodec[T] =
+    macro ItemizedMacro.itemizedCodecMacro[T]
+
+  // Object-oriented-forwarders ("syntax")
+  object ops {
+    implicit class ItemizedCodecOps[T <: Itemized](self: T)(implicit itemizedCodec: ItemizedCodec[T]) {
+      def toRep = itemizedCodec.toRep(self)
+    }
+  }
+
+  def apply[T <: Itemized](implicit itemizedCodec: ItemizedCodec[T]): ItemizedCodec[T] = itemizedCodec
 }
 
-// Macro implementation for ItemizedSerialization typeclass instance
+// Macro implementation for ItemizedCodec typeclass instance
 object ItemizedMacro {
-  def caseEnumSerializationMacro[T <: Itemized : c.WeakTypeTag](c: Context): c.Tree = {
+  def itemizedCodecMacro[T <: Itemized : c.WeakTypeTag](c: Context): c.Tree = {
     import c.universe._
     val tpe = weakTypeOf[T]
     val typeName = tpe.typeSymbol
+    if (!typeName.isAbstract) {
+      val message = s"Cannot derive implementation for concrete object (${typeName}), please upcast to the abstract supertype (enum name)"
+      c.info(c.enclosingPosition, message, true)
+      throw new Exception(message)
+    }
     val companion = tpe.typeSymbol.companion
+
     val enumElements = tpe.typeSymbol.companion.typeSignature.decls.collect {
       case x: ModuleSymbol => x
     } toList
@@ -53,11 +69,11 @@ object ItemizedMacro {
     }
 
     q"""
-      new _root_.io.rbricks.itemized.ItemizedSerialization[$typeName] {
+      new _root_.io.rbricks.itemized.ItemizedCodec[$typeName] {
         private[this] val map: Map[$typeName, String] = Map(..$mapComponents)
         private[this] val revMap = map.map(_ swap)
-        def caseToString(value: $typeName): String = map(value)
-        def caseFromString(str: String): Option[$typeName] = revMap.get(str)
+        def toRep(value: $typeName): String = map(value)
+        def fromRep(str: String): Option[$typeName] = revMap.get(str)
       }
     """
   }
