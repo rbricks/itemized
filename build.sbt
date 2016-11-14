@@ -1,7 +1,7 @@
 name := "itemized"
 organization := "io.rbricks"
 
-scalaVersion := "2.11.8"
+scalaVersion := "2.12.0"
 
 crossScalaVersions := Seq("2.11.8", "2.12.0")
 
