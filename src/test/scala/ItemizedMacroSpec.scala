@@ -1,4 +1,4 @@
-import io.rbricks.itemized.annotations.{enum, indexedEnum}
+import io.rbricks.itemized.annotation.{enum, indexedEnum}
 
 import org.scalatest.{ Matchers, WordSpec }
 

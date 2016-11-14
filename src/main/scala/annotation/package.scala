@@ -1,4 +1,4 @@
-package io.rbricks.itemized.annotations
+package io.rbricks.itemized.annotation
 
 import scala.reflect.macros._
 import scala.reflect.macros.blackbox.Context
