@@ -5,13 +5,12 @@ scalaVersion := "2.12.0"
 
 crossScalaVersions := Seq("2.11.8", "2.12.0")
 
-version      := "0.0.1"
+version      := "0.1.0"
 
 libraryDependencies += { "org.scala-lang" % "scala-reflect" % scalaVersion.value }
 
 libraryDependencies ++= Seq(
-  "org.scalatest"  %% "scalatest"     % "3.0.0" % "test",
-  "org.mockito"    %  "mockito-all"   % "1.9.5" % "test"
+  "org.scalatest"  %% "scalatest"     % "3.0.0" % "test"
 )
 
 addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full)

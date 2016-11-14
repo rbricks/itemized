@@ -1,6 +1,10 @@
 # ![rbricks itemized](https://raw.githubusercontent.com/rbricks/rbricks.github.io/master/logo/itemized.png)
 
+Part of [rbricks](http://rbricks.io), a collection of composable, small-footprint libraries for scala.
+
 A convention and typeclass derivation for ADT-based safe enumerations.
+
+[![Build Status](https://travis-ci.org/rbricks/itemized.svg?branch=master)](https://travis-ci.org/rbricks/itemized)
 
 ```scala
 import io.rbricks.itemized.annotation.enum
@@ -12,7 +16,7 @@ import io.rbricks.itemized.annotation.enum
 }
 ```
 
-A typeclass to convert to and from `String` can be obtained as follows:
+A typeclass to convert to and from `String` can be used as follows:
 
 ```scala
 scala> import io.rbricks.itemized.ItemizedCodec
@@ -43,10 +47,12 @@ res1: String = close
 
 ## Install
 
+ Artifacts for Scala 2.11 and 2.12 are available on Maven Central.
+
 Add the dependency to your `build.sbt`
 
 ```scala
-libraryDependencies += "io.rbricks.itemized" %% "itemized" % "..."
+libraryDependencies += "io.rbricks.itemized" %% "itemized" % "0.1.0"
 ```
 
 To enable the macro paradise plugin (for the `@enum` annotation), also add
