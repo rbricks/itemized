@@ -1,10 +1,15 @@
 # ![rbricks itemized](https://raw.githubusercontent.com/rbricks/rbricks.github.io/master/logo/itemized.png)
 
+A convention, compact syntax and typeclass derivation for enums encoded as `sealed trait` hierarchies.
+
 Part of [rbricks](http://rbricks.io), a collection of composable, small-footprint libraries for scala.
 
-A convention and typeclass derivation for ADT-based safe enumerations.
-
 [![Build Status](https://travis-ci.org/rbricks/itemized.svg?branch=master)](https://travis-ci.org/rbricks/itemized)
+
+
+The library tries to have minimal footprint and invasiveness by extending the widely-adopted `sealed trait` pattern used to represent "enumerations" in Scala.
+
+The library provides (optional) macro annotations for compact "enum" syntax.
 
 ```scala
 import io.rbricks.itemized.annotation.enum
@@ -16,7 +21,18 @@ import io.rbricks.itemized.annotation.enum
 }
 ```
 
-A typeclass to convert to and from `String` can be used as follows:
+This expands to:
+
+```scala
+sealed abstract trait Planet extends io.rbricks.itemized.Itemized
+object Planet {
+  case object Earth extends Planet
+  case object Venus extends Planet
+  case object Mercury extends Planet
+}
+```
+
+Typeclass instances to convert to and from `String` are automatically derived:
 
 ```scala
 scala> import io.rbricks.itemized.ItemizedCodec
@@ -31,7 +47,7 @@ scala> import io.rbricks.itemized.ItemizedCodec.ops._
 scala> planet.toRep
 ```
 
-And pattern matching against the sealed hierarchy supports exhaustiveness checking, for added safety.
+Pattern matching against the sealed hierarchy supports exhaustiveness checking, for added safety.
 
 ```scala
 scala> (Planet.Earth : Planet) match {
