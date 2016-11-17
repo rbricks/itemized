@@ -1,15 +1,14 @@
 # ![rbricks itemized](https://raw.githubusercontent.com/rbricks/rbricks.github.io/master/logo/itemized.png)
 
-A convention, compact syntax and typeclass derivation for enums encoded as `sealed trait` hierarchies.
+A small library (<300 loc) that provides macros and typeclasses for enums encoded as `sealed trait` hierarchies.
 
 Part of [rbricks](http://rbricks.io), a collection of composable, small-footprint libraries for scala.
 
 [![Build Status](https://travis-ci.org/rbricks/itemized.svg?branch=master)](https://travis-ci.org/rbricks/itemized)
 
+## Features
 
-The library tries to have minimal footprint and invasiveness by extending the widely-adopted `sealed trait` pattern used to represent "enumerations" in Scala.
-
-The library provides (optional) macro annotations for compact "enum" syntax.
+1. (Optional) _macro annotations_ for compact "enum" syntax.
 
 ```scala
 import io.rbricks.itemized.annotation.enum
@@ -32,7 +31,7 @@ object Planet {
 }
 ```
 
-Typeclass instances to convert to and from `String` are automatically derived:
+2. _Typeclass instances_ to convert to and from `String` are automatically derived:
 
 ```scala
 scala> import io.rbricks.itemized.ItemizedCodec
@@ -47,7 +46,7 @@ scala> import io.rbricks.itemized.ItemizedCodec.ops._
 scala> planet.toRep
 ```
 
-Pattern matching against the sealed hierarchy supports exhaustiveness checking, for added safety.
+3. Pattern matching against the sealed hierarchy supports _exhaustiveness checking_, for added safety.
 
 ```scala
 scala> (Planet.Earth : Planet) match {
