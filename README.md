@@ -67,7 +67,7 @@ res1: String = close
 Add the dependency to your `build.sbt`
 
 ```scala
-libraryDependencies += "io.rbricks.itemized" %% "itemized" % "0.1.0"
+libraryDependencies += "io.rbricks" %% "itemized" % "0.1.0"
 ```
 
 To enable the macro paradise plugin (for the `@enum` annotation), also add
