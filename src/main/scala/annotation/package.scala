@@ -23,7 +23,7 @@ import scala.annotation.compileTimeOnly
  * is transformed to
  *
  * ```
- * sealed abstract trait Planet extends Itemized
+ * sealed trait Planet extends Itemized
  * object Planet {
  *   case object Earth extends Planet
  *   case object Venus extends Planet
@@ -55,7 +55,7 @@ object EnumMacro {
           c.abort(c.enclosingPosition, "Enum members should be plain objects")
       }
       c.Expr(q"""
-        sealed abstract trait $enumName extends _root_.io.rbricks.itemized.Itemized
+        sealed trait $enumName extends _root_.io.rbricks.itemized.Itemized
         object ${enumName.toTermName} {
           ..$members
         }
@@ -87,7 +87,7 @@ object EnumMacro {
  * is transformed to
  *
  * ```
- * sealed abstract trait Planet extends IndexedEnum {
+ * sealed trait Planet extends IndexedEnum {
  *   type Index = Int
  * }
  * object Planet {
@@ -128,7 +128,7 @@ object IndexedEnumMacro {
         case _ => c.abort(c.enclosingPosition, "Invalid type alias declaration")
       }
       c.Expr(q"""
-        sealed abstract trait $enumName extends _root_.io.rbricks.itemized.IndexedItemized {
+        sealed trait $enumName extends _root_.io.rbricks.itemized.IndexedItemized {
           type Index = $indexType
         }
         object ${enumName.toTermName} {

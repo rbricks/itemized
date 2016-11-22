@@ -23,7 +23,7 @@ import io.rbricks.itemized.annotation.enum
 This expands to:
 
 ```scala
-sealed abstract trait Planet extends io.rbricks.itemized.Itemized
+sealed trait Planet extends io.rbricks.itemized.Itemized
 object Planet {
   case object Earth extends Planet
   case object Venus extends Planet
@@ -81,7 +81,7 @@ addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.fu
 The `@enum` annotation builds enumerations that follow the library's convention for how ADT-based enums should be encoded. However, usage of the macro annotation can be avoided by manually writing out the ADT. Here's an example that serves as an informal definition of the convention.
 
 ```scala
-sealed abstract trait Planet extends io.rbricks.itemized.Itemized
+sealed trait Planet extends io.rbricks.itemized.Itemized
 object Planet {
   case object Earth extends Planet
   case object Venus extends Planet
@@ -119,7 +119,7 @@ implicit def itemizedJsonEncoding[T <: Itemized](implicit instance: ItemizedCode
 The `@indexedEnum` annotation builds enumerations that follow the library's convention for ADT-based enums with an associated value.
 
 ```
-sealed abstract trait Planet extends io.rbricks.itemized.IndexedEnum {
+sealed trait Planet extends io.rbricks.itemized.IndexedEnum {
   type Index = Int
 }
 object Planet {
