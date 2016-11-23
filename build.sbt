@@ -7,7 +7,11 @@ lazy val baseSettings = Seq(
 )
 
 lazy val commonSettings = baseSettings ++ Seq(
-  libraryDependencies += "org.scalatest"  %% "scalatest" % "3.0.0" % "test"
+  libraryDependencies ++= Seq(
+    "org.scalatest"  %% "scalatest"              % "3.0.0"       % "test",
+    "com.lihaoyi"    %% "utest"                  % "0.4.4"       % "test",
+    "com.lihaoyi"    %% "pprint"                 % "0.4.4"       % "test"
+  )
 )
 
 lazy val publishSettings = Seq(
@@ -49,8 +53,11 @@ val circe = (project in file("circe"))
   .settings(publishSettings)
   .settings(
     name := "itemized-circe",
-    libraryDependencies += "io.circe" %% "circe-core" % "0.6.1"
+    libraryDependencies += "io.circe" %% "circe-core" % "0.6.1",
+    addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full),
+    testFrameworks += new TestFramework("utest.runner.Framework")
   )
+  .dependsOn(core)
 
 val root = (project in file("."))
   .settings(commonSettings)
