@@ -10,55 +10,59 @@ Part of [rbricks](http://rbricks.io), a collection of composable, small-footprin
 
 1. (Optional) _macro annotations_ for compact "enum" syntax.
 
-```scala
-import io.rbricks.itemized.annotation.enum
+  ```scala
+  import io.rbricks.itemized.annotation.enum
 
-@enum trait Planet {
-  object Earth
-  object Venus
-  object Mercury
-}
-```
+  @enum trait Planet {
+    object Earth
+    object Venus
+    object Mercury
+  }
+  ```
 
-This expands to:
+  This expands to:
 
-```scala
-sealed trait Planet extends io.rbricks.itemized.Itemized
-object Planet {
-  case object Earth extends Planet
-  case object Venus extends Planet
-  case object Mercury extends Planet
-}
-```
+  ```scala
+  sealed trait Planet extends io.rbricks.itemized.Itemized
+  object Planet {
+    case object Earth extends Planet
+    case object Venus extends Planet
+    case object Mercury extends Planet
+  }
+  ```
 
 2. _Typeclass instances_ to convert to and from `String` are automatically derived:
 
-```scala
-scala> import io.rbricks.itemized.ItemizedCodec
+  ```scala
+  scala> import io.rbricks.itemized.ItemizedCodec
 
-scala> ItemizedCodec[Planet].fromRep("Earth")
-res0: Option[Planet] = Some(Earth)
+  scala> ItemizedCodec[Planet].fromRep("Earth")
+  res0: Option[Planet] = Some(Earth)
 
-scala> val planet: Planet = Planet.Earth
+  scala> val planet: Planet = Planet.Earth
 
-scala> import io.rbricks.itemized.ItemizedCodec.ops._
+  scala> import io.rbricks.itemized.ItemizedCodec.ops._
 
-scala> planet.toRep
-```
+  scala> planet.toRep
+  ```
 
 3. Pattern matching against the sealed hierarchy supports _exhaustiveness checking_, for added safety.
 
-```scala
-scala> (Planet.Earth : Planet) match {
-     |   case Planet.Earth => "close"
-     |   case Planet.Venus => "far"
-     | }
-<console>:19: warning: match may not be exhaustive.
-It would fail on the following input: Mercury
-       (Planet.Earth : Planet) match {
-                     ^
-res1: String = close
-```
+  ```scala
+  scala> (Planet.Earth : Planet) match {
+       |   case Planet.Earth => "close"
+       |   case Planet.Venus => "far"
+       | }
+  <console>:19: warning: match may not be exhaustive.
+  It would fail on the following input: Mercury
+         (Planet.Earth : Planet) match {
+                       ^
+  res1: String = close
+  ```
+
+4. Support for serialization libraries, currently (click on links for usage/installation instructions):
+
+  * [circe (JSON)](circe/README.md)
 
 ## Install
 
