@@ -16,14 +16,13 @@ trait VerbatimCirceInstances {
 
   implicit def circeDecoderForItemized[T <: Itemized](implicit
     itemizedCodec: ItemizedCodec[T],
-    classTag: scala.reflect.ClassTag[T]): Decoder[T] = new Decoder[T] {
-      final def apply(c: HCursor): Result[T] = stringDecoder.apply(c).flatMap { s =>
+    classTag: scala.reflect.ClassTag[T]): Decoder[T] =
+      stringDecoder.emap { s =>
         itemizedCodec.fromRep(s) match {
           case Some(x) => Right(x)
           case None =>
-            Left(DecodingFailure(s"$s is not a member of ${classTag.runtimeClass.getName}", c.history))
+            Left(s"$s is not a member of ${classTag.runtimeClass.getName}")
         }
       }
-    }
 }
 
