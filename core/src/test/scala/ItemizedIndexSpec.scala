@@ -19,6 +19,9 @@ class ItemizedIndexSpec extends WordSpec with Matchers {
         Planet.Venus -> 2,
         Planet.Earth -> 3)
 
+      converter.values.shouldBe(pairs.map(_._1).toSet)
+      converter.size.shouldBe(3)
+
       for ((co, index) <- pairs) {
         converter.toIndex(co).shouldBe(index)
         converter.fromIndex(index).shouldBe(Some(co))
