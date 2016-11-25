@@ -21,6 +21,7 @@ class ItemizedIndexSpec extends WordSpec with Matchers {
 
       converter.values.shouldBe(pairs.map(_._1).toSet)
       converter.size.shouldBe(3)
+      converter.indices.shouldBe(pairs.toMap.values.toSet)
 
       for ((co, index) <- pairs) {
         converter.toIndex(co).shouldBe(index)

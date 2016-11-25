@@ -25,7 +25,7 @@ trait ItemizedIndex[T <: IndexedItemized] {
   def fromIndex(v: T#Index): Option[T]
   def size: Int
   def values: Set[T]
-
+  def indices: Set[T#Index]
 }
 
 object ItemizedIndex {
@@ -65,6 +65,7 @@ object ItemizedIndexMacro {
         def fromIndex(str: $typeName#Index): Option[$typeName] = revMap.get(str)
         def size: Int = revMap.size
         def values: Set[$typeName] = revMap.values.toSet
+        def indices: Set[$typeName#Index] = revMap.keys.toSet
       }
     """
   }
