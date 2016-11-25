@@ -21,11 +21,11 @@ trait IndexedItemized extends Itemized {
 }
 
 trait ItemizedIndex[T <: IndexedItemized] {
-  def toIndex(c: T): T#Index
-  def fromIndex(v: T#Index): Option[T]
-  def size: Int
-  def values: Set[T]
-  def indices: Set[T#Index]
+  def toIndex(c: T): T#Index = c.index
+
+  def fromIndex(v: T#Index): Option[T] = indexMap.get(v)
+
+  val indexMap: Map[T#Index, T]
 }
 
 object ItemizedIndex {
@@ -59,13 +59,8 @@ object ItemizedIndexMacro {
 
     q"""
       new _root_.io.rbricks.itemized.ItemizedIndex[$typeName] {
-        private[this] val revMap: Map[$typeName#Index, $typeName] =
+        val indexMap: Map[$typeName#Index, $typeName] =
           List(..$items).map(c => (c.index, c)).toMap
-        def toIndex(c: $typeName): $typeName#Index = c.index
-        def fromIndex(str: $typeName#Index): Option[$typeName] = revMap.get(str)
-        def size: Int = revMap.size
-        def values: Set[$typeName] = revMap.values.toSet
-        def indices: Set[$typeName#Index] = revMap.keys.toSet
       }
     """
   }
