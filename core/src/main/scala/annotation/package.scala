@@ -139,7 +139,7 @@ object IndexedEnumMacro {
 
     annottees.map(_.tree) match {
       case (classDecl: ClassDef) :: Nil => modifiedClass(classDecl)
-      case _ => c.abort(c.enclosingPosition, "Invalid annottee. Expecting trait.")
+      case _ => c.abort(c.enclosingPosition, "Invalid annottee, expecting trait")
     }
   }
 }
