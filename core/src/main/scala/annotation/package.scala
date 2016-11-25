@@ -112,7 +112,7 @@ object IndexedEnumMacro {
         (enumName, body)
       } catch {
         case _: MatchError =>
-          c.abort(c.enclosingPosition, "Annotation is only supported on objects")
+          c.abort(c.enclosingPosition, "Annotation is only supported on traits")
       }
       val typeAliasTree :: memberTrees = body
       val members = memberTrees.map {
@@ -139,7 +139,7 @@ object IndexedEnumMacro {
 
     annottees.map(_.tree) match {
       case (classDecl: ClassDef) :: Nil => modifiedClass(classDecl)
-      case _ => c.abort(c.enclosingPosition, "Invalid annottee")
+      case _ => c.abort(c.enclosingPosition, "Invalid annottee. Expecting trait.")
     }
   }
 }
