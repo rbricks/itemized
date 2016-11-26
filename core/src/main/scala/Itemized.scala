@@ -21,13 +21,17 @@ trait Itemized extends Product with Serializable
  * Typeclass with conversions to and from strings for ADTs representing enumerations
  */
 trait ItemizedCodec[T <: Itemized] {
-  def toRep(value: T): String
+  def toRep(value: T): String = map(value)
 
   /**
    * @return Some(T) if the string corresponds to one of the enumeration elements,
    *         None otherwise
    */
-  def fromRep(str: String): Option[T]
+  def fromRep(str: String): Option[T] = stringMap.get(str)
+
+  protected[this] val map: Map[T, String]
+
+  val stringMap: Map[String, T]
 }
 
 // Companion object to provide typeclass instances for all Itemizeds
@@ -70,10 +74,8 @@ object ItemizedMacro {
 
     q"""
       new _root_.io.rbricks.itemized.ItemizedCodec[$typeName] {
-        private[this] val map: Map[$typeName, String] = Map(..$mapComponents)
-        private[this] val revMap = map.map(_ swap)
-        def toRep(value: $typeName): String = map(value)
-        def fromRep(str: String): Option[$typeName] = revMap.get(str)
+        protected[this] val map: Map[$typeName, String] = Map(..$mapComponents)
+        val stringMap: Map[String, $typeName] = map.map(_.swap)
       }
     """
   }
