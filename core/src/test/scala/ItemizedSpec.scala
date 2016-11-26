@@ -19,6 +19,8 @@ class ItemizedSpec extends WordSpec with Matchers {
         Planet.Venus -> "Venus",
         Planet.Earth -> "Earth")
 
+      itemizedCodec.stringMap.shouldBe(pairs.map(_.swap).toMap)
+
       for ((co, str) <- pairs) {
         itemizedCodec.toRep(co).shouldBe(str)
         itemizedCodec.fromRep(str).shouldBe(Some(co))
