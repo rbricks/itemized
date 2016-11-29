@@ -51,7 +51,7 @@ object ItemizedMacro {
     import c.universe._
     val tpe = weakTypeOf[T]
     val typeName = tpe.typeSymbol
-    if (!typeName.isAbstract) {
+    if ((!typeName.isAbstract) && (typeName.asClass.baseClasses.contains(weakTypeOf[Itemized].typeSymbol))) {
       val message = s"Cannot derive implementation for concrete object (${typeName}), please upcast to the abstract supertype (enum name)"
       c.info(c.enclosingPosition, message, true)
       throw new Exception(message)
