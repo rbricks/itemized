@@ -23,8 +23,15 @@ trait IndexedItemized extends Itemized {
 trait ItemizedIndex[T <: IndexedItemized] {
   def toIndex(c: T): T#Index = c.index
 
+  /**
+   * @return Some(T) if the value corresponds to one of the enumeration elements,
+   *         None otherwise
+   */
   def fromIndex(v: T#Index): Option[T] = indexMap.get(v)
 
+  /**
+   * (value -> element) mapping as a map.
+   */
   val indexMap: Map[T#Index, T]
 }
 

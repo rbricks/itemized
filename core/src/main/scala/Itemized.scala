@@ -31,6 +31,9 @@ trait ItemizedCodec[T <: Itemized] {
 
   protected[this] val map: Map[T, String]
 
+  /**
+   * (name -> element) mapping as a map.
+   */
   val stringMap: Map[String, T]
 }
 
