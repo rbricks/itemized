@@ -118,6 +118,8 @@ implicit def itemizedJsonEncoding[T <: Itemized](implicit instance: ItemizedCode
 }
 ```
 
+Additionally, `ItemizedCodec[T]` exposes the `Map[String, T]` as `.stringMap`, for other use-cases (such as retrieving the set of admissible elements or strings).
+
 ## Enumerations with an associated value
 
 The `@indexedEnum` annotation builds enumerations that follow the library's convention for ADT-based enums with an associated value.
@@ -182,3 +184,4 @@ scala> planet.toIndex
 res2: Planet#Index = 3
 ```
 
+Additionally, `ItemizedIndex[T]` exposes the `Map[T#Index, T]` as `.indexMap`, for other use-cases (such as retrieving the set of admissible elements or indices).
