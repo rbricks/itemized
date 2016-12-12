@@ -26,4 +26,4 @@ trait MyInstances extends OtherInstances with io.rbricks.itemized.circeinstances
 ## Installation
 
 ```
-libraryDependencies += "io.rbricks" %% "itemized-circe" % "0.1.0"
+libraryDependencies += "io.rbricks" %% "itemized-circe" % "0.2.0"
