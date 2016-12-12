@@ -4,7 +4,7 @@ A small library (<300 loc) that provides macros and typeclasses for enums encode
 
 Part of [rbricks](http://rbricks.io), a collection of composable, small-footprint libraries for scala.
 
-[![Build Status](https://travis-ci.org/rbricks/itemized.svg?branch=master)](https://travis-ci.org/rbricks/itemized) [![Maven Central](https://img.shields.io/maven-central/v/io.rbricks/itemized_2.12.svg)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22io.rbricks%22%20a%3A%22itemized_2.12%22)
+[![Build Status](https://travis-ci.org/rbricks/itemized.svg?branch=master)](https://travis-ci.org/rbricks/itemized) [![Maven Central](https://img.shields.io/maven-central/v/io.rbricks/itemized_2.12.svg)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22io.rbricks%22%20a%3A%22itemized_2.12%22) [![Changelog](https://img.shields.io/badge/changelog-0.2.0-lightgrey.svg)](#changelog)
 
 ## Features
 
@@ -71,7 +71,7 @@ Part of [rbricks](http://rbricks.io), a collection of composable, small-footprin
 Add the dependency to your `build.sbt`
 
 ```scala
-libraryDependencies += "io.rbricks" %% "itemized" % "0.1.0"
+libraryDependencies += "io.rbricks" %% "itemized" % "0.2.0"
 ```
 
 To enable the macro paradise plugin (for the `@enum` annotation), also add
@@ -185,3 +185,12 @@ res2: Planet#Index = 3
 ```
 
 Additionally, `ItemizedIndex[T]` exposes the `Map[T#Index, T]` as `.indexMap`, for other use-cases (such as retrieving the set of admissible elements or indices).
+
+## Changelog
+
+### 0.2.0
+
+  * [circe](circe/README.md) encoders and decoders (@utaal, 6ac3e9a)
+  * More info in macro errors (@esarbe, 0de55b3)
+  * `ItemizedCodec.stringMap` and `ItemizedIndex.indexMap` retrieve the underlying string<->object or index<->object mappings (@esarbe, 25013c4)
+
