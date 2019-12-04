@@ -2,7 +2,7 @@
 
 A small library (<300 loc) that provides macros and typeclasses for enums encoded as `sealed trait` hierarchies.
 
-Part of [rbricks](http://rbricks.io), a collection of composable, small-footprint libraries for scala.
+Part of [rbricks](http://rbricks.github.io), a collection of composable, small-footprint libraries for scala.
 
 [![Build Status](https://travis-ci.org/rbricks/itemized.svg?branch=master)](https://travis-ci.org/rbricks/itemized) [![Maven Central](https://img.shields.io/maven-central/v/io.rbricks/itemized_2.12.svg)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22io.rbricks%22%20a%3A%22itemized_2.12%22) [![Changelog](https://img.shields.io/badge/changelog-0.2.0-lightgrey.svg)](#changelog)
 
