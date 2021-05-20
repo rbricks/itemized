@@ -1,3 +1,5 @@
+**NOTE: This project is no longer actively maintained.**
+
 # ![rbricks itemized](https://raw.githubusercontent.com/rbricks/rbricks.github.io/master/logo/itemized.png)
 
 A small library (<300 loc) that provides macros and typeclasses for enums encoded as `sealed trait` hierarchies.
